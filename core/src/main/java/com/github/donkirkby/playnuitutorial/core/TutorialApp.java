@@ -1,31 +1,36 @@
 package com.github.donkirkby.playnuitutorial.core;
 
-import static playn.core.PlayN.*;
+import com.github.donkirkby.playnuitutorial.core.ButtonDemoScreen;
 
 import playn.core.Game;
-import playn.core.Image;
-import playn.core.ImageLayer;
+import playn.core.util.Clock;
+import tripleplay.game.ScreenStack;
 
 public class TutorialApp extends Game.Default {
+  // call update every 33ms (30 times per second)
+  public static final int UPDATE_RATE = 33;
+  
+  private final Clock.Source clock = new Clock.Source(UPDATE_RATE);
+  private final ScreenStack screens = new ScreenStack();
 
   public TutorialApp() {
-    super(33); // call update every 33ms (30 times per second)
+    super(UPDATE_RATE);
   }
 
   @Override
   public void init() {
-    // create and add background image layer
-    Image bgImage = assets().getImage("images/bg.png");
-    ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    graphics().rootLayer().add(bgLayer);
+    screens.push(new ButtonDemoScreen());
   }
 
   @Override
   public void update(int delta) {
+    clock.update(delta);
+    screens.update(delta);
   }
 
   @Override
   public void paint(float alpha) {
-    // the background automatically paints itself, so no need to do anything here!
+      clock.paint(alpha);
+      screens.paint(clock);
   }
 }
