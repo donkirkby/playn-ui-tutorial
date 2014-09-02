@@ -1,5 +1,6 @@
 <module rename-to='playnuitutorial'>
   <inherits name='playn.PlayN'/>
+  <inherits name="tripleplay.TriplePlay"/>
   <inherits name='TutorialAppAssets'/>
 
   <source path='core'/>
