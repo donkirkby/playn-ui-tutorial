@@ -2,6 +2,8 @@ package com.github.donkirkby.playnuitutorial.core;
 
 import static playn.core.PlayN.graphics;
 import playn.core.Font;
+import playn.core.Pointer.Event;
+import playn.core.Pointer.Adapter;
 import react.UnitSlot;
 import tripleplay.game.UIScreen;
 import tripleplay.ui.Background;
@@ -44,6 +46,19 @@ public class ButtonDemoScreen extends UIScreen
                 button.text.update("Clicked");
             }
         }));
+        button.layer.addListener(new Adapter() {
+            private float startX;
+
+            @Override
+            public void onPointerStart(Event event) {
+                startX = event.localX();
+            }
+            
+            @Override
+            public void onPointerDrag(Event event) {
+                button.layer.transform().translateX(event.localX() - startX);
+            }
+        });
     }
 
     @Override public void wasHidden () {
